@@ -108,6 +108,11 @@ pub enum Value {
 
     VoltageID(f64),
 
+    PwmIo(f64),
+    PwmFreq(f64),
+    PwmEnable(f64),
+    PwmMode(f64),
+
     IntrusionAlarm(bool),
     IntrusionBeep(bool),
 
@@ -215,6 +220,11 @@ impl Value {
 
             Kind::HumidityInput => Self::HumidityInput(value),
 
+            Kind::PwmIo => Self::PwmIo(value),
+            Kind::PwmFreq => Self::PwmFreq(value),
+            Kind::PwmEnable => Self::PwmEnable(value),
+            Kind::PwmMode => Self::PwmMode(value),
+
             Kind::VoltageID => Self::VoltageID(value),
 
             Kind::IntrusionAlarm => Self::IntrusionAlarm(value != 0.0_f64),
@@ -238,93 +248,8 @@ impl Value {
     pub fn new_temperature_sensor_kind(kind: Kind, value: TemperatureSensorKind) -> Option<Self> {
         match kind {
             Kind::TemperatureType => Some(Self::TemperatureType(value)),
-
-            Kind::VoltageInput
-            | Kind::VoltageMinimum
-            | Kind::VoltageMaximum
-            | Kind::VoltageLCritical
-            | Kind::VoltageCritical
-            | Kind::VoltageAverage
-            | Kind::VoltageLowest
-            | Kind::VoltageHighest
-            | Kind::VoltageAlarm
-            | Kind::VoltageMinimumAlarm
-            | Kind::VoltageMaximumAlarm
-            | Kind::VoltageBeep
-            | Kind::VoltageLCriticalAlarm
-            | Kind::VoltageCriticalAlarm
-            | Kind::FanInput
-            | Kind::FanMinimum
-            | Kind::FanMaximum
-            | Kind::FanAlarm
-            | Kind::FanFault
-            | Kind::FanDivisor
-            | Kind::FanBeep
-            | Kind::FanPulses
-            | Kind::FanMinimumAlarm
-            | Kind::FanMaximumAlarm
-            | Kind::TemperatureInput
-            | Kind::TemperatureMaximum
-            | Kind::TemperatureMaximumHysteresis
-            | Kind::TemperatureMinimum
-            | Kind::TemperatureCritical
-            | Kind::TemperatureCriticalHysteresis
-            | Kind::TemperatureLCritical
-            | Kind::TemperatureEmergency
-            | Kind::TemperatureEmergencyHysteresis
-            | Kind::TemperatureLowest
-            | Kind::TemperatureHighest
-            | Kind::TemperatureMinimumHysteresis
-            | Kind::TemperatureLCriticalHysteresis
-            | Kind::TemperatureAlarm
-            | Kind::TemperatureMaximumAlarm
-            | Kind::TemperatureMinimumAlarm
-            | Kind::TemperatureCriticalAlarm
-            | Kind::TemperatureFault
-            | Kind::TemperatureOffset
-            | Kind::TemperatureBeep
-            | Kind::TemperatureEmergencyAlarm
-            | Kind::TemperatureLCriticalAlarm
-            | Kind::PowerAverage
-            | Kind::PowerAverageHighest
-            | Kind::PowerAverageLowest
-            | Kind::PowerInput
-            | Kind::PowerInputHighest
-            | Kind::PowerInputLowest
-            | Kind::PowerCap
-            | Kind::PowerCapHysteresis
-            | Kind::PowerMaximum
-            | Kind::PowerCritical
-            | Kind::PowerMinimum
-            | Kind::PowerLCritical
-            | Kind::PowerAverageInterval
-            | Kind::PowerAlarm
-            | Kind::PowerCapAlarm
-            | Kind::PowerMaximumAlarm
-            | Kind::PowerCriticalAlarm
-            | Kind::PowerMinimumAlarm
-            | Kind::PowerLCriticalAlarm
-            | Kind::EnergyInput
-            | Kind::CurrentInput
-            | Kind::CurrentMinimum
-            | Kind::CurrentMaximum
-            | Kind::CurrentLCritical
-            | Kind::CurrentCritical
-            | Kind::CurrentAverage
-            | Kind::CurrentLowest
-            | Kind::CurrentHighest
-            | Kind::CurrentAlarm
-            | Kind::CurrentMinimumAlarm
-            | Kind::CurrentMaximumAlarm
-            | Kind::CurrentBeep
-            | Kind::CurrentLCriticalAlarm
-            | Kind::CurrentCriticalAlarm
-            | Kind::HumidityInput
-            | Kind::VoltageID
-            | Kind::IntrusionAlarm
-            | Kind::IntrusionBeep
-            | Kind::BeepEnable
-            | Kind::Unknown => None,
+            
+            _  => None,
         }
     }
 
@@ -431,6 +356,11 @@ impl Value {
 
             Self::HumidityInput(_) => Kind::HumidityInput,
 
+            Self::PwmIo(_) => Kind::PwmIo,
+            Self::PwmFreq(_) => Kind::PwmFreq,
+            Self::PwmEnable(_) => Kind::PwmEnable,
+            Self::PwmMode(_) => Kind::PwmMode,
+
             Self::VoltageID(_) => Kind::VoltageID,
 
             Self::IntrusionAlarm(_) => Kind::IntrusionAlarm,
@@ -503,6 +433,11 @@ impl Value {
             | Self::CurrentHighest(value)
             // Humidity
             | Self::HumidityInput(value)
+            // Pwm
+            | Self::PwmIo(value)
+            | Self::PwmFreq(value)
+            | Self::PwmEnable(value)
+            | Self::PwmMode(value)
             // VoltageID
             | Self::VoltageID(value)
             // Unknown
@@ -561,7 +496,7 @@ impl Value {
         }
     }
 
-    /// Set the raw value of this instance.
+    /// Set the raw value of this instance, and return the previous one
     pub fn set_raw_value(&mut self, new_value: f64) -> Result<f64> {
         match self {
             // Voltage
@@ -621,6 +556,11 @@ impl Value {
             | Self::CurrentHighest(value)
             // Humidity
             | Self::HumidityInput(value)
+            // Pwm
+            | Self::PwmIo(value)
+            | Self::PwmFreq(value)
+            | Self::PwmEnable(value)
+            | Self::PwmMode(value)
             // VoltageID
             | Self::VoltageID(value)
             // Unknown
@@ -815,6 +755,11 @@ impl fmt::Display for Value {
 
             Self::HumidityInput(value) => write!(f, "{} {}", value, Unit::Percentage),
 
+            Self::PwmIo(value) => write!(f, "{} {}", value, Unit::Percentage),
+            Self::PwmFreq(value)
+            | Self::PwmEnable(value)
+            | Self::PwmMode(value) => write!(f, "{} {}", value, Unit::None),
+
             Self::Unknown { .. } => write!(f, "\u{fffd}"),
         }
     }
@@ -925,6 +870,11 @@ pub enum Kind {
 
     HumidityInput = SENSORS_SUBFEATURE_HUMIDITY_INPUT,
 
+    PwmIo = SENSORS_SUBFEATURE_PWM_IO,
+    PwmFreq = SENSORS_SUBFEATURE_PWM_FREQ,
+    PwmEnable = SENSORS_SUBFEATURE_PWM_ENABLE,
+    PwmMode = SENSORS_SUBFEATURE_PWM_MODE,
+
     VoltageID = SENSORS_SUBFEATURE_VID,
 
     IntrusionAlarm = SENSORS_SUBFEATURE_INTRUSION_ALARM,
@@ -1000,7 +950,10 @@ impl Kind {
             // Beep
             | Self::BeepEnable
             // Unknown
-            | Self::Unknown => Unit::None,
+            | Self::Unknown
+            | Self::PwmFreq
+            | Self::PwmEnable
+            | Self::PwmMode => Unit::None,
 
             Self::VoltageInput
             | Self::VoltageMinimum
@@ -1056,7 +1009,8 @@ impl Kind {
             | Self::CurrentLowest
             | Self::CurrentHighest => Unit::Amp,
 
-            Self::HumidityInput => Unit::Percentage,
+            Self::HumidityInput
+            | Self::PwmIo => Unit::Percentage,
         }
     }
 }
@@ -1152,6 +1106,10 @@ impl fmt::Display for Kind {
             Self::CurrentLCriticalAlarm => "CurrentLCriticalAlarm",
             Self::CurrentCriticalAlarm => "CurrentCriticalAlarm",
             Self::HumidityInput => "HumidityInput",
+            Self::PwmIo => "PwmIo",
+            Self::PwmFreq => "PwmFreq",
+            Self::PwmEnable => "PwmEnable",
+            Self::PwmMode => "PwmMode",
             Self::VoltageID => "VoltageID",
             Self::IntrusionAlarm => "IntrusionAlarm",
             Self::IntrusionBeep => "IntrusionBeep",
@@ -1176,6 +1134,7 @@ pub enum Unit {
     Second,
     RotationPerMinute,
     Percentage,
+
 }
 
 impl Default for Unit {

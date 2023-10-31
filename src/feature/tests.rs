@@ -85,6 +85,7 @@ fn kind() {
         (Kind::Energy, SENSORS_FEATURE_ENERGY, "Energy"),
         (Kind::Current, SENSORS_FEATURE_CURR, "Current"),
         (Kind::Humidity, SENSORS_FEATURE_HUMIDITY, "Humidity"),
+        (Kind::Pwm, SENSORS_FEATURE_PWM, "Pwm"),
         (Kind::VoltageID, SENSORS_FEATURE_VID, "VoltageID"),
         (Kind::Intrusion, SENSORS_FEATURE_INTRUSION, "Intrusion"),
         (Kind::BeepEnable, SENSORS_FEATURE_BEEP_ENABLE, "BeepEnable"),

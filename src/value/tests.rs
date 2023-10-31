@@ -6,7 +6,7 @@ use sensors_sys::sensors_subfeature_type::*;
 
 use super::{Kind, Unit};
 
-static KIND_LIST: [(Kind, c_uint, Unit, bool, &str); 87] = [
+static KIND_LIST: [(Kind, c_uint, Unit, bool, &str); 91] = [
     (
         Kind::VoltageInput,
         SENSORS_SUBFEATURE_IN_INPUT,
@@ -580,6 +580,34 @@ static KIND_LIST: [(Kind, c_uint, Unit, bool, &str); 87] = [
         Unit::Percentage,
         false,
         "HumidityInput",
+    ),
+    (
+        Kind::PwmIo,
+        SENSORS_SUBFEATURE_PWM_IO,
+        Unit::Percentage,
+        false,
+        "PwmIo",
+    ),
+    (
+        Kind::PwmFreq,
+        SENSORS_SUBFEATURE_PWM_FREQ,
+        Unit::None,
+        false,
+        "PwmFreq",
+    ),
+    (
+        Kind::PwmEnable,
+        SENSORS_SUBFEATURE_PWM_ENABLE,
+        Unit::None,
+        false,
+        "PwmEnable",
+    ),
+    (
+        Kind::PwmMode,
+        SENSORS_SUBFEATURE_PWM_MODE,
+        Unit::None,
+        false,
+        "PwmMode",
     ),
     (
         Kind::VoltageID,

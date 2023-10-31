@@ -16,7 +16,7 @@ documentation = "https://docs.rs/lm-sensors"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-sensors-sys = { version = "0.2" }
+sensors-sys = { git = "https://github.com/koutheir/sensors-sys.git", rev = "9a3ede3f4b0a86866c5092355f563c1da0012a4c" }
 thiserror   = { version = "1.0" }
 libc        = { version = "0.2" }
 bitflags    = { version = "2.4" }
